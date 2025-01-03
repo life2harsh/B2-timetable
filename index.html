@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timetable</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background-color: #4CAF50;
+            color: white;
+            gap: 1rem;
+        }
+
+        .header button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.8s ease-in-out, opacity 0.8s ease-in-out;
+        }
+
+        table.visible {
+            opacity: 1;
+            max-height: 1000px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            text-align: center;
+            padding: 0.75rem;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .green { background-color: #c8e6c9; }
+        .red { background-color: #ffcdd2; }
+        .blue { background-color: #bbdefb; }
+        .lavender { background-color: #e6e6fa; }
+
+        body.dark-mode {
+            background-color: #121212;
+            color: #f4f4f4;
+        }
+
+        body.dark-mode .header {
+            background-color: #333;
+        }
+
+        body.dark-mode table {
+            border-color: #444;
+        }
+
+        body.dark-mode th {
+            background-color: #555;
+        }
+
+        body.dark-mode .green { background-color: #a4c639; }
+        body.dark-mode .red { background-color: #de5d83; }
+        body.dark-mode .blue { background-color: #72a0c1; }
+        body.dark-mode .lavender { background-color: #b2a1ea; }
+
+        .daily-view {
+            margin: 1rem;
+            padding: 1rem;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .daily-view h2 {
+            margin-top: 0;
+        }
+
+        body.dark-mode .daily-view {
+            background-color: #333;
+        }
+
+        .daily-view {
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        #todayScheduleContainer {
+            margin: 1rem;
+            padding: 1rem;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        #todayScheduleContainer h2 {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .schedule-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .schedule-card {
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            min-width: 120px;
+        }
+
+        body.dark-mode #todayScheduleContainer {
+            background: #333;
+            color: #fff;
+        }
+
+        body.dark-mode .schedule-card {
+            box-shadow: 0 1px 3px rgba(255, 255, 255, 0.2);
+        }
+   
+body.dark-mode .header button {
+    background-color: #888;
+    color: #fff; 
+}
+
+body.dark-mode .header button:hover {
+    background-color: #aaa; 
+}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>B2 Timetable</h1>
+        <div class="button-group">
+            <button id="darkModeToggle">Toggle Dark Mode</button>
+            <button id="showFullTimetable">FULL TIMETABLE</button>
+        </div>
+    </div>
+
+    <div id="todayScheduleContainer">
+        <h2>Today's Schedule</h2>
+        <div id="todaySchedule" class="schedule-cards"></div>
+    </div>
+
+    <div class="table-container">
+        <table id="fullTimetable">
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>9:00-9:50</th>
+                    <th>10:00-10:50</th>
+                    <th>11:00-11:50</th>
+                    <th>12:00-12:50</th>
+                    <th>1:00-1:50</th>
+                    <th>2:00-2:50</th>
+                    <th>3:00-3:50</th>
+                    <th>4:00-4:50</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Monday</td>
+                    <td colspan="3" class="lavender">Life Skills<br>CL12</td>
+                    <td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td>Tuesday</td>
+                    <td class="blue">Mathematics-2<br>G2</td>
+                    <td></td>
+                    <td class="red">SDF<br>TS8</td>
+                    <td></td>
+                    <td class="blue">Mathematics-2<br>G5</td>
+                    <td class="green">UHV<br>G1</td>
+                    <td class="blue">Physics-2<br>G1</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Wednesday</td>
+                    <td></td>
+                    <td class="red">UHV<br>TS12</td>
+                    <td class="red">Physics-2<br>TS12</td>
+                    <td></td>
+                    <td class="lavender">Physics Lab-2<br>PL2</td>
+                    <td></td>
+                    <td class="blue">Mathematics-2<br>G3</td>
+                    <td class="blue">SDF<br>G1</td>
+                </tr>
+                <tr>
+                    <td>Thursday</td>
+                    <td></td>
+                    <td></td>
+                    <td class="red">Mathematics-2<br>TS10</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="lavender" colspan="2">Engineering Drawing and Design<br>CAD2</td>
+                </tr>
+                <tr>
+                    <td>Friday</td>
+                    <td class="blue">Physics-2<br>G3</td>
+                    <td class="blue">UHV<br>G3</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="blue">SDF<br>G3</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Saturday</td>
+                    <td class="blue">SDF<br>G3</td>
+                    <td class="blue">Physics-2<br>G3</td>
+                    <td></td>
+                    <td class="lavender" colspan="2">SDF Lab<br>CL02</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const showFullTimetable = document.getElementById('showFullTimetable');
+        const body = document.body;
+        const fullTimetable = document.getElementById('fullTimetable');
+        const todaySchedule = document.getElementById('todaySchedule');
+
+        const currentDay = new Date().toLocaleString('en-us', { weekday: 'long' });
+
+        const daySchedules = {
+            Monday: [
+                { time: '9:00-11:50', subject: 'Life Skills', location: 'CL12', color: 'lavender' }
+            ],
+            Tuesday: [
+                { time: '9:00-9:50', subject: 'Mathematics-2', location: 'G2', color: 'blue' },
+                { time: '11:00-11:50', subject: 'SDF', location: 'TS8', color: 'red' },
+                { time: '1:00-1:50', subject: 'Mathematics-2', location: 'G5', color: 'blue' },
+                { time: '2:00-2:50', subject: 'UHV', location: 'G1', color: 'green' },
+                { time: '3:00-3:50', subject: 'Physics-2', location: 'G1', color: 'blue' }
+            ],
+            Wednesday: [
+                { time: '10:00-10:50', subject: 'UHV', location: 'TS12', color: 'red' },
+                { time: '11:00-11:50', subject: 'Physics-2', location: 'TS12', color: 'red' },
+                { time: '1:00-1:50', subject: 'Physics Lab-2', location: 'PL2', color: 'lavender' },
+                { time: '3:00-3:50', subject: 'Mathematics-2', location: 'G3', color: 'blue' },
+                { time: '4:00-4:50', subject: 'SDF', location: 'G1', color: 'blue' }
+            ],
+            Thursday: [
+                { time: '11:00-11:50', subject: 'Mathematics-2', location: 'TS10', color: 'red' },
+                { time: '3:00-4:50', subject: 'Engineering Drawing and Design', location: 'CAD2', color: 'lavender' }
+            ],
+            Friday: [
+                { time: '9:00-9:50', subject: 'Physics-2', location: 'G3', color: 'blue' },
+                { time: '10:00-10:50', subject: 'UHV', location: 'G3', color: 'blue' },
+                { time: '3:00-3:50', subject: 'SDF', location: 'G3', color: 'blue' }
+            ],
+            Saturday: [
+                { time: '9:00-9:50', subject: 'SDF', location: 'G3', color: 'blue' },
+                { time: '10:00-10:50', subject: 'Physics-2', location: 'G3', color: 'blue' },
+                { time: '12:00-1:50', subject: 'SDF Lab', location: 'CL02', color: 'lavender' }
+            ]
+        };
+
+        if (daySchedules[currentDay]) {
+            todaySchedule.innerHTML = daySchedules[currentDay].map(slot => `
+                <div class="schedule-card ${slot.color}">
+                    <p><strong>${slot.time}</strong></p>
+                    <p>${slot.subject}</p>
+                    <p>${slot.location}</p>
+                </div>
+            `).join('');
+        } else {
+            todaySchedule.innerHTML = `<p>No Classes Today</p>`;
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+        });
+
+        if (localStorage.getItem('darkMode') === 'true') {
+            body.classList.add('dark-mode');
+        }
+
+        showFullTimetable.addEventListener('click', () => {
+            fullTimetable.classList.toggle('visible');
+        });
+    </script>
+</body>
+</html>
