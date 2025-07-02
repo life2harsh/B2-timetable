@@ -1,0 +1,160 @@
+* body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background-color: #4CAF50;
+            color: white;
+            gap: 1rem;
+        }
+
+        .header button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.8s ease-in-out, opacity 0.8s ease-in-out;
+        }
+
+        table.visible {
+            opacity: 1;
+            max-height: 1000px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            text-align: center;
+            padding: 0.75rem;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .green { background-color: #c8e6c9; }
+        .red { background-color: #ffcdd2; }
+        .blue { background-color: #bbdefb; }
+        .lavender { background-color: #e6e6fa; }
+
+        body.dark-mode {
+            background-color: #121212;
+            color: #f4f4f4;
+        }
+
+        body.dark-mode .header {
+            background-color: #333;
+        }
+
+        body.dark-mode table {
+            border-color: #444;
+        }
+
+        body.dark-mode th {
+            background-color: #555;
+        }
+
+        body.dark-mode .green { background-color: #a4c639; }
+        body.dark-mode .red { background-color: #de5d83; }
+        body.dark-mode .blue { background-color: #72a0c1; }
+        body.dark-mode .lavender { background-color: #b2a1ea; }
+
+        .daily-view {
+            margin: 1rem;
+            padding: 1rem;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .daily-view h2 {
+            margin-top: 0;
+        }
+
+        body.dark-mode .daily-view {
+            background-color: #333;
+        }
+
+        .daily-view {
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        #todayScheduleContainer {
+            margin: 1rem;
+            padding: 1rem;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        #todayScheduleContainer h2 {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .schedule-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .schedule-card {
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            min-width: 120px;
+        }
+
+        body.dark-mode #todayScheduleContainer {
+            background: #333;
+            color: #fff;
+        }
+
+        body.dark-mode .schedule-card {
+            box-shadow: 0 1px 3px rgba(255, 255, 255, 0.2);
+        }
+   
+body.dark-mode .header button {
+    background-color: #888;
+    color: #fff; 
+}
+
+body.dark-mode .header button:hover {
+    background-color: #aaa; 
+}
